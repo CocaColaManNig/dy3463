@@ -31,16 +31,6 @@ local espLibrary = {
         teamColor = false,
         fillColor = nil,
         whitelistColor = Color3.new(1, 0, 0),
-        outOfViewArrows = true,
-        outOfViewArrowsFilled = true,
-        outOfViewArrowsSize = 25,
-        outOfViewArrowsRadius = 100,
-        outOfViewArrowsColor = Color3.new(1, 1, 1),
-        outOfViewArrowsTransparency = 0.5,
-        outOfViewArrowsOutline = true,
-        outOfViewArrowsOutlineFilled = false,
-        outOfViewArrowsOutlineColor = Color3.new(1, 1, 1),
-        outOfViewArrowsOutlineTransparency = 1,
         names = true,
         nameTransparency = 1,
         nameColor = Color3.new(1, 1, 1),
@@ -240,12 +230,6 @@ function espLibrary.addEsp(player)
     end
 
     local objects = {
-        arrow = create("Triangle", {
-            Thickness = 1,
-        }),
-        arrowOutline = create("Triangle", {
-            Thickness = 1,
-        }),
         top = create("Text", {
             Center = true,
             Size = 13,
@@ -451,35 +435,13 @@ function espLibrary:Load(renderValue)
                 local objectSpacePoint = (pointToObjectSpace(currentCamera.CFrame, torso.Position) * vector3New(1, 0, 1)).Unit;
                 local crossVector = cross(objectSpacePoint, vector3New(0, 1, 1));
                 local rightVector = vector2New(crossVector.X, crossVector.Z);
-
-                local arrowRadius, arrowSize = self.options.outOfViewArrowsRadius, self.options.outOfViewArrowsSize;
-                local arrowPosition = screenCenter + vector2New(objectSpacePoint.X, objectSpacePoint.Z) * arrowRadius;
-                local arrowDirection = (arrowPosition - screenCenter).Unit;
-
-                local pointA, pointB, pointC = arrowPosition, screenCenter + arrowDirection * (arrowRadius - arrowSize) + rightVector * arrowSize, screenCenter + arrowDirection * (arrowRadius - arrowSize) + -rightVector * arrowSize;
-
+                    
                 local health, maxHealth = self.getHealth(player, character);
                 local healthBarSize = round(vector2New(self.options.healthBarsSize, -(size.Y * (health / maxHealth))));
                 local healthBarPosition = round(vector2New(position.X - (3 + healthBarSize.X), position.Y + size.Y));
 
                 local origin = self.options.tracerOrigin;
                 local show = canShow and enabled;
-
-                objects.arrow.Visible = (not canShow and enabled) and self.options.outOfViewArrows;
-                objects.arrow.Filled = self.options.outOfViewArrowsFilled;
-                objects.arrow.Transparency = self.options.outOfViewArrowsTransparency;
-                objects.arrow.Color = color or self.options.outOfViewArrowsColor;
-                objects.arrow.PointA = pointA;
-                objects.arrow.PointB = pointB;
-                objects.arrow.PointC = pointC;
-
-                objects.arrowOutline.Visible = (not canShow and enabled) and self.options.outOfViewArrowsOutline;
-                objects.arrowOutline.Filled = self.options.outOfViewArrowsOutlineFilled;
-                objects.arrowOutline.Transparency = self.options.outOfViewArrowsOutlineTransparency;
-                objects.arrowOutline.Color = color or self.options.outOfViewArrowsOutlineColor;
-                objects.arrowOutline.PointA = pointA;
-                objects.arrowOutline.PointB = pointB;
-                objects.arrowOutline.PointC = pointC;
 
                 objects.top.Visible = show and self.options.names;
                 objects.top.Font = self.options.font;
