@@ -58,7 +58,10 @@ local espLibrary = {
         chamsOutlineTransparency = 0,
         weapon = false,
         weaponColor = Color3.new(1, 1, 1),
-        weaponTextTransparency = 1
+        weaponTextTransparency = 1,
+        visibletext = false,
+        visibletextColor = Color3.new(1, 1, 1),
+        visibletextTransparency = 1
     },
 };
 espLibrary.__index = espLibrary;
@@ -220,6 +223,19 @@ function espLibrary.visibleCheck(character, position)
     return (not raycast(workspace, origin, position - origin, params));
 end
 
+function espLibrary.visibleTextCheck(character, position)
+    local origin = currentCamera.CFrame.Position
+    local params = raycastParamsNew()
+
+    params.FilterDescendantsInstances = { espLibrary.getCharacter(localPlayer), currentCamera, character }
+    params.FilterType = Enum.RaycastFilterType.Blacklist
+    params.IgnoreWater = true
+
+    local isVisible = not raycast(workspace, origin, position - origin, params)
+
+    return isVisible
+end
+
 function espLibrary.addEsp(player)
     if (player == localPlayer) then
         return
@@ -234,6 +250,12 @@ function espLibrary.addEsp(player)
             Font = 2,
         }),
         side = create("Text", {
+            Size = 13,
+            Outline = true,
+            OutlineColor = color3New(),
+            Font = 2,
+        }),
+        side2 = create("Text", {
             Size = 13,
             Outline = true,
             OutlineColor = color3New(),
@@ -462,6 +484,14 @@ function espLibrary:Load(renderValue)
                 objects.side.Color = color or self.options.healthTextColor;
                 objects.side.Text = health .. self.options.healthTextSuffix;
                 objects.side.Position = round(position + vector2New(size.X + 3, -3));
+
+                local isVisible = espLibrary.visibleTextCheck(character, position)
+                objects2.side.Font = self.options.font;
+                objects2.side.Size = self.options.fontSize;
+                objects2.side.Transparency = self.options.visibletextTransparency;
+                objects2.side.Color = color or self.options.visibletextColor;
+                objects2.side.Text = isVisible and "VIS" or "INV";
+                objects2.side.Position = round(position + vector2New(size.X + 3, -6));
 
                 objects.bottom.Visible = show and self.options.distance;
                 objects.bottom.Font = self.options.font;
