@@ -133,7 +133,7 @@ local function round(number)
     return typeof(number) == "Vector2" and vector2New(round(number.X), round(number.Y)) or floor(number);
 end
 function espLibrary.getWeapon(player)
-    local weapon = game.ReplicatedStorage.Players:FindFirstChild(player.Name):FindFirstChild("Status"):FindFirstChild("GameplayVariables"):FindFirstChild("EquippedTool").Value
+    local weapon = game.ReplicatedStorage.Players:FindFirstChild(player.Name):FindFirstChild("Status"):FindFirstChild("GameplayVariables"):FindFirstChild("EquippedTool")
     return weapon
 end
 function espLibrary.getTeam(player)
@@ -476,7 +476,7 @@ function espLibrary:Load(renderValue)
                 objects.bottom2.Size = self.options.fontSize;
                 objects.bottom2.Transparency = self.options.weaponTextTransparency;
                 objects.bottom2.Color = color or self.options.weaponColor;
-                objects.bottom2.Text = "weapon: " .. table.concat(wpn);
+                objects.bottom2.Text = "weapon: " .. tostring(wpn.Value);
                 objects.bottom2.Position = round(position + vector2New(size.X * 0.5, size.Y + 1));
 
                 objects.box.Visible = show and self.options.boxes;
