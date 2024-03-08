@@ -231,7 +231,9 @@ function espLibrary.visibleTextCheck(character, position)
     params.FilterType = Enum.RaycastFilterType.Blacklist
     params.IgnoreWater = true
 
-    local isVisible = not raycast(workspace, origin, position - origin, params)
+    local direction = (position - origin).unit
+
+    local isVisible = not raycast(workspace, origin, direction, params)
 
     return isVisible
 end
