@@ -1,16 +1,11 @@
---[[
-    made by siper#9938 and mickey#5612
-]]
-
--- main module
 local espLibrary = {
     instances = {},
     espCache = {},
     chamsCache = {},
     objectCache = {},
     conns = {},
-    whitelist = {}, -- insert string that is the player's name you want to whitelist (turns esp color to whitelistColor in options)
-    blacklist = {}, -- insert string that is the player's name you want to blacklist (removes player from esp)
+    whitelist = {},
+    blacklist = {},
     options = {
         enabled = true,
         minScaleFactorX = 1,
@@ -19,7 +14,7 @@ local espLibrary = {
         maxScaleFactorY = 10,
         scaleFactorX = 5,
         scaleFactorY = 6,
-        boundingBox = false, -- WARNING | Significant Performance Decrease when true
+        boundingBox = false,
         boundingBoxDescending = true,
         excludedPartNames = {},
         font = 2,
@@ -55,12 +50,15 @@ local espLibrary = {
         tracers = false,
         tracerTransparency = 1,
         tracerColor = Color3.new(1, 1, 1),
-        tracerOrigin = "Bottom", -- Available [Mouse, Top, Bottom]
+        tracerOrigin = "Bottom",
         chams = true,
         chamsFillColor = Color3.new(1, 0, 0),
         chamsFillTransparency = 0.5,
         chamsOutlineColor = Color3.new(),
-        chamsOutlineTransparency = 0
+        chamsOutlineTransparency = 0,
+        weapon = false,
+        weaponColor = Color3.new(1, 0, 0),
+        weaponTextTransparency = 1
     },
 };
 espLibrary.__index = espLibrary;
@@ -92,23 +90,19 @@ local getComponents = emptyCFrame.GetComponents;
 local cross = vector3New().Cross;
 local inf = 1 / 0;
 
--- services
 local workspace = getService(game, "Workspace");
 local runService = getService(game, "RunService");
 local players = getService(game, "Players");
 local coreGui = getService(game, "CoreGui");
 local userInputService = getService(game, "UserInputService");
 
--- cache
 local currentCamera = workspace.CurrentCamera;
 local localPlayer = players.LocalPlayer;
 local screenGui = instanceNew("ScreenGui", coreGui);
 local lastFov, lastScale;
 
--- instance functions
 local wtvp = currentCamera.WorldToViewportPoint;
 
--- Support Functions
 local function isDrawing(type)
     return type == "Square" or type == "Text" or type == "Triangle" or type == "Image" or type == "Line" or type == "Circle";
 end
@@ -138,8 +132,11 @@ end
 local function round(number)
     return typeof(number) == "Vector2" and vector2New(round(number.X), round(number.Y)) or floor(number);
 end
-
--- Main Functions
+function espLibrary.getWeapon(player, pweapon)
+    local weapon = game.ReplicatedStorage.Players:FindFirstChild(player.Name):FindFirstChild("Status"):FindFirstChild("GameplayVariables"):FindFirstChild("EquippedTool"):GetChildren()
+    pweapon = weapon.Value
+    return weapon
+end
 function espLibrary.getTeam(player)
     local team = player.Team;
     return team, player.TeamColor.Color;
@@ -244,6 +241,13 @@ function espLibrary.addEsp(player)
             Font = 2,
         }),
         bottom = create("Text", {
+            Center = true,
+            Size = 13,
+            Outline = true,
+            OutlineColor = color3New(),
+            Font = 2,
+        }),
+        bottom2 = create("Text", {
             Center = true,
             Size = 13,
             Outline = true,
@@ -437,6 +441,7 @@ function espLibrary:Load(renderValue)
                 local rightVector = vector2New(crossVector.X, crossVector.Z);
                     
                 local health, maxHealth = self.getHealth(player, character);
+                local wpn = self.getWeapon(player, pweapon);
                 local healthBarSize = round(vector2New(self.options.healthBarsSize, -(size.Y * (health / maxHealth))));
                 local healthBarPosition = round(vector2New(position.X - (3 + healthBarSize.X), position.Y + size.Y));
 
@@ -466,6 +471,14 @@ function espLibrary:Load(renderValue)
                 objects.bottom.Color = color or self.options.nameColor;
                 objects.bottom.Text = tostring(round(distance)) .. self.options.distanceSuffix;
                 objects.bottom.Position = round(position + vector2New(size.X * 0.5, size.Y + 1));
+
+                objects.bottom2.Visible = show and self.options.weapon;
+                objects.bottom2.Font = self.options.font;
+                objects.bottom2.Size = self.options.fontSize;
+                objects.bottom2.Transparency = self.options.weaponTextTransparency;
+                objects.bottom2.Color = color or self.options.weaponColor;
+                objects.bottom2.Text = "weapon: " .. wpn;
+                objects.bottom2.Position = round(position + vector2New(size.X * 0.5, size.Y + 1));
 
                 objects.box.Visible = show and self.options.boxes;
                 objects.box.Color = color or self.options.boxesColor;
