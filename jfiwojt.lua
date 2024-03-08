@@ -132,9 +132,8 @@ end
 local function round(number)
     return typeof(number) == "Vector2" and vector2New(round(number.X), round(number.Y)) or floor(number);
 end
-function espLibrary.getWeapon(player, pweapon)
+function espLibrary.getWeapon(player)
     local weapon = game.ReplicatedStorage.Players:FindFirstChild(player.Name):FindFirstChild("Status"):FindFirstChild("GameplayVariables"):FindFirstChild("EquippedTool"):GetChildren()
-    pweapon = weapon.Value
     return weapon
 end
 function espLibrary.getTeam(player)
