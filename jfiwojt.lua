@@ -232,8 +232,9 @@ function espLibrary.visibleTextCheck(character, position)
     params.IgnoreWater = true
 
     local direction = (position - origin).unit
+    direction = Vector3.new(direction.X, direction.Y, direction.Z)
 
-    local isVisible = not raycast(workspace, origin, direction, params)
+    local isVisible = not raycast(workspace, origin, direction * (position - origin).magnitude, params)
 
     return isVisible
 end
