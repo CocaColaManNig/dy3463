@@ -476,7 +476,7 @@ function espLibrary:Load(renderValue)
                 objects.bottom2.Size = self.options.fontSize;
                 objects.bottom2.Transparency = self.options.weaponTextTransparency;
                 objects.bottom2.Color = color or self.options.weaponColor;
-                objects.bottom2.Text = "weapon: " .. wpn;
+                objects.bottom2.Text = "weapon: " .. tostring(wpn);
                 objects.bottom2.Position = round(position + vector2New(size.X * 0.5, size.Y + 1));
 
                 objects.box.Visible = show and self.options.boxes;
