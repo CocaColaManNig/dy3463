@@ -57,7 +57,7 @@ local espLibrary = {
         chamsOutlineColor = Color3.new(),
         chamsOutlineTransparency = 0,
         weapon = false,
-        weaponColor = Color3.new(1, 0, 0),
+        weaponColor = Color3.new(1, 1, 1),
         weaponTextTransparency = 1
     },
 };
