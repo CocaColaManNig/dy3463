@@ -31,10 +31,10 @@ local espLibrary = {
         nameColor = Color3.new(1, 1, 1),
         boxes = true,
         boxesTransparency = 1,
-        boxesColor = Color3.new(1, 0, 0),
+        boxesColor = Color3.new(1, 1, 1),
         boxFill = false,
         boxFillTransparency = 0.5,
-        boxFillColor = Color3.new(1, 0, 0),
+        boxFillColor = Color3.new(1, 1, 1),
         healthBars = true,
         healthBarsSize = 1,
         healthBarsTransparency = 1,
@@ -57,7 +57,7 @@ local espLibrary = {
         chamsOutlineColor = Color3.new(),
         chamsOutlineTransparency = 0,
         weapon = false,
-        weaponColor = Color3.new(1, 0, 0),
+        weaponColor = Color3.new(1, 1, 1),
         weaponTextTransparency = 1
     },
 };
