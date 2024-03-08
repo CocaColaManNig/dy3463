@@ -57,7 +57,7 @@ local espLibrary = {
         chamsOutlineColor = Color3.new(),
         chamsOutlineTransparency = 0,
         weapon = false,
-        weaponColor = Color3.new(1, 1, 1),
+        weaponColor = Color3.new(1, 0, 0),
         weaponTextTransparency = 1
     },
 };
@@ -477,7 +477,7 @@ function espLibrary:Load(renderValue)
                 objects.bottom2.Transparency = self.options.weaponTextTransparency;
                 objects.bottom2.Color = color or self.options.weaponColor;
                 objects.bottom2.Text = tostring(wpn.Value);
-                objects.bottom2.Position = round(position + vector2New(size.X * 0.5, size.Y + 2));
+                objects.bottom2.Position = round(position + vector2New(size.X * 0.5, size.Y + 3));
 
                 objects.box.Visible = show and self.options.boxes;
                 objects.box.Color = color or self.options.boxesColor;
