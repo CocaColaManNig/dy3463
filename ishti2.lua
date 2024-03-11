@@ -426,7 +426,6 @@ function espLibrary:Load(renderValue)
                 local rightVector = vector2New(crossVector.X, crossVector.Z);
                     
                 local health, maxHealth = self.getHealth(player, character);
-                local wpn = self.getWeapon(player, pweapon);
                 local healthBarSize = round(vector2New(self.options.healthBarsSize, -(size.Y * (health / maxHealth))));
                 local healthBarPosition = round(vector2New(position.X - (3 + healthBarSize.X), position.Y + size.Y));
 
